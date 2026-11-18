@@ -196,3 +196,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .update .muted{font-size:13px;margin-left:6px}
 .update a.btn{color:var(--text);white-space:nowrap}
 .update a.btn.primary{color:#fff}
+/* шапка: відступ після підпису, «Нова група» — кнопка-плашка */
+.credit{margin-right:20px}
+#addGroup{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:5px 12px;font-weight:500}
+#addGroup:hover{background:var(--hover);border-color:var(--muted)}
