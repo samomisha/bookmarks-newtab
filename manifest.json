@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Працюй з любов'ю ♥",
+  "version": "1.6.0",
+  "description": "Нова вкладка з усіма закладками Chrome: групи-стовпчики, пошук, улюблені, архів, цитата дня. Світла й темна тема в стилі Notion.",
+  "homepage_url": "https://league.design",
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "favicon"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  }
+}

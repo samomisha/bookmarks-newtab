@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>Нова вкладка</title>
+<link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+<header class="top">
+  <div class="search">
+    <svg viewBox="0 0 20 20" width="16" height="16"><path d="M8.5 3a5.5 5.5 0 014.38 8.83l3.65 3.64-1.06 1.06-3.64-3.65A5.5 5.5 0 118.5 3zm0 1.5a4 4 0 100 8 4 4 0 000-8z" fill="currentColor"/></svg>
+    <input id="q" type="text" placeholder="Пошук закладок…  ( / )" autocomplete="off" autofocus>
+    <span id="count" class="muted"></span>
+  </div>
+  <div class="actions">
+    <a class="btn site" href="https://league.design" target="_blank">league.design</a>
+    <button id="addGroup" class="btn">+ Нова група</button>
+    <a id="help" class="btn icon" href="help.html" title="Інструкція">?</a>
+    <button id="theme" class="btn icon" title="Тема"></button>
+  </div>
+</header>
+<section id="quote" class="quote" hidden></section>
+<section id="favs" class="favs" hidden></section>
+<main id="board"></main>
+<div id="dock" class="dock">
+  <div class="zone fav-zone" data-act="fav"><span class="ico">★</span><span class="lbl">В улюблені</span></div>
+  <div class="zone" data-act="archive"><span class="ico">🗄</span>В архів</div>
+  <div class="zone danger" data-act="delete"><span class="ico">🗑</span>Видалити</div>
+</div>
+<div id="toast" class="toast" hidden></div>
+<div id="quotes" class="overlay" hidden>
+  <div class="dlg qlib">
+    <div class="q-head"><b>Бібліотека цитат</b><span id="qcount" class="muted"></span><button class="btn icon q-close" title="Закрити">✕</button></div>
+    <form id="qform">
+      <textarea id="qtext" rows="2" placeholder="Люди залучені, коли знають те, що знає CEO — CEO Київстар"></textarea>
+      <div class="q-row"><span class="muted">Одним рядком: «Текст — Автор» · ⌘Enter — зберегти</span>
+        <span><button type="button" class="btn q-cancel" hidden>Скасувати</button><button type="submit" class="btn primary q-submit">Додати</button></span></div>
+    </form>
+    <div id="qlist"></div>
+  </div>
+</div>
+<div id="dialog" class="overlay" hidden><div class="dlg"><div class="msg"></div><div class="row"><button class="btn cancel">Скасувати</button><button class="btn ok">Видалити</button></div></div></div>
+<div id="empty" class="empty" hidden></div>
+<script src="newtab.js"></script>
+</body>
+</html>
