@@ -19,7 +19,7 @@
 
 ## Встановлення
 
-1. **[⬇ Завантажте розширення (ZIP)](https://github.com/samomisha/bookmarks-newtab/releases/latest/download/bookmarks-newtab-1.6.0.zip)** і розпакуйте в постійну папку, не в «Завантаження».
+1. **[⬇ Завантажте розширення (ZIP)](https://github.com/samomisha/bookmarks-newtab/releases/latest/download/bookmarks-newtab.zip)** і розпакуйте в постійну папку, не в «Завантаження».
 2. Відкрийте `chrome://extensions` і ввімкніть **Режим розробника** (праворуч угорі).
 3. Натисніть **Завантажити розпаковане** і виберіть папку.
 4. Якщо у вас стоїть інше розширення нової вкладки — вимкніть його.
