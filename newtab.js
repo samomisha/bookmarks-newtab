@@ -583,3 +583,35 @@ $('.q-close').onclick = closeQuotes;
 $('#quotes').addEventListener('mousedown', e => { if (e.target.id === 'quotes') closeQuotes(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#quotes').hidden){ e.stopPropagation(); closeQuotes(); } }, true);
 loadQuotes();
+
+/* ---------- перевірка оновлень (раз на добу, GitHub Releases) ---------- */
+const REPO = 'samomisha/bookmarks-newtab';
+const verNum = v => String(v).replace(/^v/, '').split('.').map(n => parseInt(n) || 0);
+const newer = (a, b) => { const x = verNum(a), y = verNum(b); for (let i = 0; i < 3; i++){ if ((x[i]||0) !== (y[i]||0)) return (x[i]||0) > (y[i]||0); } return false; };
+async function checkUpdate(){
+  const cur = chrome.runtime.getManifest().version;
+  const s = await chrome.storage.local.get(['upd', 'updDismissed']);
+  let upd = s.upd;
+  if (!upd || Date.now() - upd.checked > 24 * 3600e3){
+    try {
+      const r = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {headers: {Accept: 'application/vnd.github+json'}});
+      if (r.ok){
+        const j = await r.json();
+        const asset = (j.assets || []).find(a => a.name.endsWith('.zip'));
+        upd = {checked: Date.now(), tag: j.tag_name, url: j.html_url, zip: asset ? asset.browser_download_url : j.html_url};
+        chrome.storage.local.set({upd});
+      }
+    } catch {}
+  }
+  const box = $('#update');
+  if (!upd || !newer(upd.tag, cur) || s.updDismissed === upd.tag){ box.hidden = true; return; }
+  const v = upd.tag.replace(/^v/, '');
+  box.innerHTML = `<span class="u-ico">✨</span>
+    <span class="u-text"><b>Вийшла нова версія ${esc(v)}</b> <span class="muted">у тебе ${esc(cur)} · онови файли в папці й натисни ↻ у chrome://extensions</span></span>
+    <a class="btn" href="${esc(upd.url)}" target="_blank">Що нового</a>
+    <a class="btn primary" href="${esc(upd.zip)}" target="_blank">⬇ Завантажити</a>
+    <button class="btn icon u-close" title="Сховати до наступної версії">✕</button>`;
+  box.hidden = false;
+  box.querySelector('.u-close').onclick = () => { chrome.storage.local.set({updDismissed: upd.tag}); box.hidden = true; };
+}
+checkUpdate();

@@ -181,3 +181,18 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .toast{z-index:50}
 /* місце під кнопки цитати, щоб текст не налазив */
 .quote blockquote,.quote .q-author{padding-right:110px}
+
+/* credit in header */
+.credit{font-size:12px;color:var(--muted);padding:0 8px;white-space:nowrap}
+.credit a{color:var(--muted);text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+.credit a:hover{color:var(--text);text-decoration-color:currentColor}
+.actions{align-items:center}
+/* update banner — Notion callout */
+.update{display:flex;align-items:center;gap:10px;margin:20px 40px 0;padding:10px 10px 10px 14px;border-radius:8px;
+  background:rgba(35,131,226,.08);border:1px solid rgba(35,131,226,.22);font-size:14px}
+.update[hidden]{display:none}
+.update .u-ico{font-size:18px}
+.update .u-text{flex:1;min-width:0}
+.update .muted{font-size:13px;margin-left:6px}
+.update a.btn{color:var(--text);white-space:nowrap}
+.update a.btn.primary{color:#fff}
