@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/png;base64,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">
+<title>Work-Love-Balance — Minimal Bookmarks New Tab for Chrome</title>
+<meta name="description" content="Your Chrome bookmarks as a calm, minimal new tab: folder columns, instant search, favorites, archive and a quote of the day. Free, private, no tracking.">
+<style>
+:root{--hero:#fbefd9;--bg:#ffffff;--fg:#37352f;--mut:#787774;--line:#e9e9e7;--soft:#f7f7f5;--acc:#2383e2}
+@media(prefers-color-scheme:dark){:root{--hero:#2b241a;--bg:#191919;--fg:#e6e6e4;--mut:#9b9a97;--line:#2f2f2f;--soft:#232323;--acc:#529cca}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--hero);color:var(--fg);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+header{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.logo{font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}.mark{display:block}
+.logo span{color:#e16259}
+header nav a{color:var(--mut);text-decoration:none;font-size:14px;margin-left:22px}
+header nav a:hover{color:var(--fg)}
+.hero{padding:72px 0 40px;text-align:center}
+.hero h1{font-size:clamp(36px,6vw,60px);line-height:1.08;letter-spacing:-.025em;margin:0 0 18px;font-weight:700}
+.hero p{font-size:19px;color:var(--mut);max-width:600px;margin:0 auto 32px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--fg);color:var(--bg);text-decoration:none;font-weight:600;padding:14px 22px;border-radius:10px;transition:transform .15s}
+.cta{display:flex;gap:28px;justify-content:center;align-items:center;flex-wrap:wrap}.cws img{display:block;height:58px;width:auto}.btn:hover{transform:translateY(-1px)}
+.note{display:block;margin-top:14px;font-size:13px;color:var(--mut)}
+.shot{margin:48px auto 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px -30px rgba(15,15,15,.25)}
+.shot img{display:block;width:100%;height:auto}
+.shot .dark{display:none}
+@media(prefers-color-scheme:dark){.shot .light{display:none}.shot .dark{display:block}}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:80px 0 30px}@media(max-width:760px){.feats{grid-template-columns:1fr}}
+.f{background:var(--soft);border-radius:12px;padding:22px}
+.f .i{height:22px;color:var(--fg)}.f .i svg{display:block}
+.f h3{margin:10px 0 6px;font-size:16px}
+.f p{margin:0;color:var(--mut);font-size:15px}
+.love{text-align:center;padding:60px 0 80px}
+.love blockquote{font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.01em;margin:0 auto 26px;max-width:640px;line-height:1.3}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
+footer a{color:var(--mut)}
+.car{padding:80px 0 10px;text-align:center}.ct{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em;margin:0 0 22px}
+.tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:-34px;position:relative}
+.tab{border:0;background:none;color:var(--mut);font:inherit;font-size:14px;padding:8px 14px;border-radius:999px;cursor:pointer}
+.tab:hover{color:var(--fg)}.tab.on{background:var(--soft);color:var(--fg);font-weight:600}
+.vp{position:relative;margin:0 -60px}.track{display:grid}
+.slide{grid-area:1/1;margin:0;padding:0 60px 84px;opacity:0;transition:opacity .45s ease;pointer-events:none}.slide.on{opacity:1;pointer-events:auto}.slide h3{font-size:clamp(26px,3.4vw,36px);margin:0 0 8px;letter-spacing:-.02em}.slide p{color:var(--mut);margin:0 0 26px}
+.frame{position:relative;margin:0 auto;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#ecebe8;padding-top:26px;box-shadow:0 26px 60px -28px rgba(15,15,15,.3)}
+.frame i{position:absolute;top:9px;width:9px;height:9px;border-radius:50%;background:#ff5f57;left:12px}.frame i+i{left:27px;background:#febc2e}.frame i+i+i{left:42px;background:#28c840}
+.frame img{display:block;width:100%;height:auto}
+.nav{position:absolute;top:56%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--fg);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:box-shadow .15s,transform .15s}.nav:hover{box-shadow:0 4px 14px rgba(0,0,0,.12);transform:translateY(-50%) scale(1.05)}.nav svg{display:block}
+.prev{left:2px}.next{right:2px}
+.dots{display:flex;gap:8px;justify-content:center}.dots span{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer}.dots span.on{background:var(--fg)}
+@media(max-width:1120px){.nav{display:none}}@media(max-width:760px){.vp{margin:0 -28px}.slide{padding:0 28px 50px}.nav{display:none}.tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo"><svg class="mark" viewBox="10 14 108 98" width="22" height="20" aria-hidden="true"><path d="M64 104C32 84 18 66 18 48c0-15 11-26 25-26 9 0 16 5 21 12 5-7 12-12 21-12 14 0 25 11 25 26 0 18-14 36-46 56z" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"/></svg><b>Work<span>-</span>Love<span>-</span>Balance</b></div>
+  <nav><a href="#tour">Tour</a><a href="#features">Features</a><a href="/privacy">Privacy</a><a href="https://github.com/samomisha/bookmarks-newtab">GitHub</a></nav>
+</header>
+
+<section class="hero">
+  <h1>A calm new tab<br>for people who love their work</h1>
+  <p>Your Chrome bookmarks as tidy columns, with instant search and a quote of the day. Nothing to sign up for, nothing to configure.</p>
+  <a class="btn" href="https://chromewebstore.google.com/detail/jpgnhdhgiogedcdalebnijpemhehkped" id="install" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M9 4.5a2 2 0 0 1 4 0V6h4a1 1 0 0 1 1 1v4h-1.5a2 2 0 0 0 0 4H18v4a1 1 0 0 1-1 1h-4v-1.5a2 2 0 0 0-4 0V20H5a1 1 0 0 1-1-1v-4h1.5a2 2 0 0 0 0-4H4V7a1 1 0 0 1 1-1h4z"/></svg>Add to Chrome — it's free</a>
+  <span class="note">Works with the bookmarks you already have</span>
+  <div class="shot"><img class="light" src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/app-light.jpg" alt="Work-Love-Balance new tab, light theme"><img class="dark" src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/app-dark.jpg" alt="Work-Love-Balance new tab, dark theme"></div>
+</section>
+
+<section class="car" id="tour">
+<div class="vp"><div class="track"><figure class="slide on"><figcaption><h3>Drag links between columns</h3><p>Grab any bookmark and drop it where it belongs. The target column lights up.</p></figcaption><div class="frame"><i></i><i></i><i></i><img src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/f-cols.jpg" alt="Drag links between columns" loading="lazy"></div></figure><figure class="slide"><figcaption><h3>No buttons to misclick</h3><p>Drag to favorite, archive or delete. Every action can be undone.</p></figcaption><div class="frame"><i></i><i></i><i></i><img src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/f-dock.jpg" alt="No buttons to misclick" loading="lazy"></div></figure><figure class="slide"><figcaption><h3>As many groups as you like</h3><p>Add a column in one click and fill it with a drag.</p></figcaption><div class="frame"><i></i><i></i><i></i><img src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/f-newgroup.jpg" alt="As many groups as you like" loading="lazy"></div></figure><figure class="slide"><figcaption><h3>Find any link in a second</h3><p>Just start typing. Everything else steps aside.</p></figcaption><div class="frame"><i></i><i></i><i></i><img src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/f-search.jpg" alt="Find any link in a second" loading="lazy"></div></figure><figure class="slide"><figcaption><h3>A quote to start the day</h3><p>Let it surprise you, or keep your own library of quotes.</p></figcaption><div class="frame"><i></i><i></i><i></i><img src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/f-settings.jpg" alt="A quote to start the day" loading="lazy"></div></figure><figure class="slide"><figcaption><h3>Easy on the eyes, day and night</h3><p>Light and dark themes that follow your system.</p></figcaption><div class="frame"><i></i><i></i><i></i><img src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/f-dark.jpg" alt="Easy on the eyes, day and night" loading="lazy"></div></figure></div>
+<button class="nav prev" aria-label="Previous"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6l-6 6 6 6"/></svg></button><button class="nav next" aria-label="Next"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6l6 6-6 6"/></svg></button></div>
+<div class="tabs"><button class="tab on" data-i="0">Drag &amp; drop</button><button class="tab" data-i="1">Safe actions</button><button class="tab" data-i="2">Groups</button><button class="tab" data-i="3">Search</button><button class="tab" data-i="4">Quotes</button><button class="tab" data-i="5">Dark mode</button></div></section>
+<script>(()=>{const t=document.querySelector('.track'),n=6;let i=0,timer,rs;
+const tabs=[...document.querySelectorAll('.tab')],dots=[];
+function go(k,user){i=(k+n)%n;[...t.children].forEach((c,j)=>c.classList.toggle('on',j==i));tabs.forEach((b,j)=>b.classList.toggle('on',j==i));dots.forEach((d,j)=>d.classList.toggle('on',j==i));
+ const tb=tabs[i].parentElement;if(tb.scrollWidth>tb.clientWidth)tb.scrollTo({left:tabs[i].offsetLeft-(tb.clientWidth-tabs[i].offsetWidth)/2,behavior:'smooth'});if(user){clearInterval(timer);clearTimeout(rs);rs=setTimeout(start,10000)}}
+document.querySelector('.prev').onclick=()=>go(i-1,1);document.querySelector('.next').onclick=()=>go(i+1,1);
+tabs.forEach(b=>b.onclick=()=>go(+b.dataset.i,1));
+let x0=null;t.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+t.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(i+(dx<0?1:-1),1);x0=null});
+function start(){clearInterval(timer);timer=setInterval(()=>go(i+1),5000)}start()})()</script>
+<section class="feats" id="features">
+  <div class="f"><div class="i"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="4.5" height="16" rx="1.2"/><rect x="9.75" y="4" width="4.5" height="12" rx="1.2"/><rect x="16" y="4" width="4.5" height="8" rx="1.2"/></svg></div><h3>Folders become columns</h3><p>Every bookmark folder is a column. Drag links and columns around until it feels right.</p></div>
+  <div class="f"><div class="i"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></div><h3>Instant search</h3><p>Start typing in the search bar and only the matching bookmarks stay on screen.</p></div>
+  <div class="f"><div class="i"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></div><h3>Favorites up front</h3><p>The links you open every day sit in a row of big icons at the top.</p></div>
+  <div class="f"><div class="i"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17A8.5 8.5 0 0 0 12 3.5z" fill="currentColor"/></svg></div><h3>Light and dark</h3><p>Follows your system, or pick one. Clean, quiet, easy on the eyes.</p></div>
+  <div class="f"><div class="i"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(-1.6 -1.8) scale(1.15)" d="M9.5 7C6.5 8 5 10.5 5 13.5V17h4.5v-4.5H7c0-2 1-3.2 2.5-3.8zM18.5 7c-3 1-4.5 3.5-4.5 6.5V17h4.5v-4.5H16c0-2 1-3.2 2.5-3.8z"/></svg></div><h3>A quote of the day</h3><p>A small reminder why you do what you do. Add your own quotes or let it surprise you.</p></div>
+  <div class="f"><div class="i"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 12.5h9l1-12.5"/></svg></div><h3>No accidental clicks</h3><p>Archive and delete only by dragging to a zone at the bottom. Every action can be undone.</p></div>
+</section>
+
+<section class="love">
+  <blockquote>Work with love, enjoy the process.<br>Everything else gets easier.</blockquote>
+  <div class="cta"><a class="btn" href="https://chromewebstore.google.com/detail/jpgnhdhgiogedcdalebnijpemhehkped" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M9 4.5a2 2 0 0 1 4 0V6h4a1 1 0 0 1 1 1v4h-1.5a2 2 0 0 0 0 4H18v4a1 1 0 0 1-1 1h-4v-1.5a2 2 0 0 0-4 0V20H5a1 1 0 0 1-1-1v-4h1.5a2 2 0 0 0 0-4H4V7a1 1 0 0 1 1-1h4z"/></svg>Add to Chrome</a><a class="cws" href="https://chromewebstore.google.com/detail/jpgnhdhgiogedcdalebnijpemhehkped" target="_blank" rel="noopener" aria-label="Available in the Chrome Web Store"><img src="https://raw.githubusercontent.com/samomisha/bookmarks-newtab/main/site/cws-badge.png" alt="Available in the Chrome Web Store" height="58"></a></div>
+  <span class="note">Private by design: your bookmarks never leave your browser</span>
+</section>
+
+<footer>
+  <span>Made with ♥ by <a href="https://t.me/designer_samovarov">Mike</a> from <a href="https://league.design">League Design</a></span>
+  <span><a href="/privacy">Privacy policy</a> · <a href="https://github.com/samomisha/bookmarks-newtab">Source on GitHub</a></span>
+</footer>
+</div>
+<script>(()=>{const cs=getComputedStyle(document.documentElement),hex=v=>{v=cs.getPropertyValue(v).trim().slice(1);return [0,2,4].map(i=>parseInt(v.substr(i,2),16))};
+let A=hex('--hero'),B=hex('--bg');const mq=matchMedia('(prefers-color-scheme: dark)');mq.addEventListener('change',()=>{A=hex('--hero');B=hex('--bg');f()});
+const shot=document.querySelector('.shot');
+function f(){const r=shot.getBoundingClientRect(),h=innerHeight;let t=Math.min(1,Math.max(0,(h*0.55-r.bottom)/(h*0.45)));
+document.body.style.background=`rgb(${A.map((a,i)=>Math.round(a+(B[i]-a)*t)).join(',')})`}
+addEventListener('scroll',f,{passive:true});f()})()</script></body>
+</html>
