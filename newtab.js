@@ -1,8 +1,10 @@
-const ARCHIVE = 'Архів';
+applyI18n();
+const ARCHIVE = T('archive');
+const ARCHIVE_NAMES = window.ARCHIVE_ALL || ['Архів', 'Archive'];
 const $ = s => document.querySelector(s);
 const board = $('#board'), q = $('#q');
 let groups = [], archive = null, defaultParent = '1', sel = 0, visible = [];
-const HELP = {id: '__help', title: 'Інструкція', url: 'help.html', isHelp: true};
+const HELP = {id: '__help', title: T('help'), url: 'help.html', isHelp: true};
 const HELP_ICON = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#2383e2' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M4 19.5V5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zm0 0A2 2 0 006 22h13'/><path d='M9 8h6M9 12h4'/></svg>`);
 let helpHidden = false, archiveOpen = false, colOrder = [], seen = new Set(), favs = [], linkById = new Map();
 try { archiveOpen = localStorage.archiveOpen === '1'; } catch {}
@@ -12,17 +14,11 @@ const media = matchMedia('(prefers-color-scheme: dark)');
 function applyTheme(t){
   const mode = t === 'system' ? (media.matches ? 'dark' : 'light') : t;
   document.documentElement.dataset.theme = mode;
-  $('#theme').textContent = t === 'system' ? '◐' : t === 'dark' ? '☾' : '☀';
-  $('#theme').title = 'Тема: ' + ({system:'як у системі',dark:'темна',light:'світла'})[t];
 }
 let theme = 'system'; try { theme = localStorage.theme || 'system'; } catch {}
 applyTheme(theme);
 chrome.storage.sync.get('theme', r => { if (r.theme) { theme = r.theme; try{localStorage.theme = theme;}catch{} applyTheme(theme); }});
 media.addEventListener('change', () => applyTheme(theme));
-$('#theme').onclick = () => {
-  theme = ({system:'light',light:'dark',dark:'system'})[theme];
-  try{localStorage.theme = theme;}catch{} chrome.storage.sync.set({theme}); applyTheme(theme);
-};
 
 /* ---------- data ---------- */
 const fav = (url, size = 32) => (window.FAVICON ? FAVICON(url) :
@@ -39,12 +35,12 @@ async function load(){
   defaultParent = roots[0]?.id || '1';
   archive = null; groups = [];
   const walk = (node, path, isRoot) => {
-    if (!node.url && node.title === ARCHIVE && !isRoot){ archive = {id: node.id, title: ARCHIVE, parentId: node.parentId, links: flatten(node), isArchive: true}; return; }
+    if (!node.url && ARCHIVE_NAMES.includes(node.title) && !isRoot && !archive){ archive = {id: node.id, title: node.title, parentId: node.parentId, links: flatten(node), isArchive: true}; return; }
     const links = (node.children || []).filter(c => c.url);
     const subs = (node.children || []).filter(c => !c.url);
     const empty = !links.length && !subs.length;
     if (links.length || (empty && !isRoot))
-      groups.push({id: node.id, title: node.title || 'Без назви', path, links, isRoot, parentId: node.parentId});
+      groups.push({id: node.id, title: node.title || T('untitled'), path, links, isRoot, parentId: node.parentId});
     for (const s of subs) walk(s, path ? `${path} / ${node.title}` : node.title, false);
   };
   for (const r of roots) walk(r, '', true);
@@ -70,7 +66,7 @@ async function load(){
     if (!archive) archive = {id: null, title: ARCHIVE, links: [], isArchive: true};
     archive.links = [HELP, ...archive.links];
   }
-  if (unsorted.length) groups.unshift({id: '__unsorted', title: 'Не розібрані', links: unsorted, isUnsorted: true});
+  if (unsorted.length) groups.unshift({id: '__unsorted', title: T('unsorted'), links: unsorted, isUnsorted: true});
   render();
 }
 function markSeen(...ids){
@@ -82,17 +78,17 @@ function showDock(l){
   $('#dock').classList.add('show');
   const fz = $('#dock .fav-zone'), f = isFavd(l);
   fz.querySelector('.ico').textContent = f ? '☆' : '★';
-  fz.querySelector('.lbl').textContent = f ? 'Прибрати з улюблених' : 'В улюблені';
+  fz.querySelector('.lbl').textContent = f ? T('dock.unfav') : T('dock.fav');
 }
 function setHelp(hidden){
   helpHidden = hidden; chrome.storage.local.set({helpHidden: hidden}); load();
-  toast(hidden ? 'Інструкція в архіві. Повернути — правий клік → «★ В улюблені»' : '★ Інструкція знову в улюблених');
+  toast(hidden ? T('toast.helpArchived') : T('toast.helpBack'));
 }
 function setFavs(list){ favs = list; return chrome.storage.local.set({favs}).then(render); }
 function toggleFav(l){
   if (l.isHelp) return setHelp(!helpHidden);
-  if (favs.includes(l.id)) { setFavs(favs.filter(x => x !== l.id)); toast(`Прибрано з улюблених`); }
-  else { markSeen(l.id); setFavs([...favs, l.id]); toast(`★ «${esc(l.title || host(l.url))}» в улюблених`); }
+  if (favs.includes(l.id)) { setFavs(favs.filter(x => x !== l.id)); toast(T('toast.favRemoved')); }
+  else { markSeen(l.id); setFavs([...favs, l.id]); toast(T('toast.favAdded', {t: esc(l.title || host(l.url))})); }
 }
 async function ensureArchive(){
   if (archive?.id) return archive.id;
@@ -110,7 +106,7 @@ function linkEl(l, terms, inArchive){
   const a = document.createElement('a');
   a.className = 'link'; a.href = l.url; a.draggable = true; a.dataset.id = l.id; a.dataset.index = l.index; a.dataset.parent = l.parentId; a.title = (l.title ? l.title + '\n' : '') + shortUrl(l.url);
   a.innerHTML = `<img src="${l.isHelp ? HELP_ICON : fav(l.url)}" alt=""><span class="t">${hl(l.title || host(l.url), terms)}</span>
-    ${favs.includes(l.id) ? '<span class="star" title="В улюблених">★</span>' : ''}`;
+    ${favs.includes(l.id) ? `<span class="star" title="${T('inFavs')}">★</span>` : ''}`;
   a.addEventListener('contextmenu', e => { e.preventDefault(); openMenu(e, l, a, inArchive); });
   a.addEventListener('click', e => { if (a.classList.contains('editing')) e.preventDefault(); });
   a.addEventListener('dragstart', e => { e.dataTransfer.setData('text/id', l.id); a.classList.add('dragging'); dragging = l; $('#dock').classList.add('show');
@@ -137,7 +133,7 @@ function render(){
     col.className = 'col' + (g.isArchive ? ' archive' : '') + (g.isUnsorted ? ' unsorted' : '') + (collapsed ? ' collapsed' : '');
     col.dataset.id = g.id;
     if (collapsed){
-      col.innerHTML = `<button class="arch-pill" title="Розгорнути архів"><span>🗄</span><span class="v">${ARCHIVE}</span><span class="col-count">${g.links.length}</span></button>`;
+      col.innerHTML = `<button class="arch-pill" title="${T('arch.expand')}"><span>🗄</span><span class="v">${esc(g.title)}</span><span class="col-count">${g.links.length}</span></button>`;
       col.querySelector('button').onclick = () => setArchive(true);
       wireDrop(col, g); board.appendChild(col); continue;
     }
@@ -145,9 +141,9 @@ function render(){
       ${g.isArchive ? '<span>🗄</span>' : g.isUnsorted ? '<span class="dot"></span>' : ''}
       <span class="col-title">${esc(g.title)}</span>
       <span class="col-count">${links.length}</span>
-      ${g.isArchive ? '<button class="col-btn" title="Згорнути">‹</button>' : g.isUnsorted ? '<button class="col-btn ok-all" title="Залишити все там, де лежить">✓ все</button>' : g.isRoot ? '' : '<button class="col-btn col-del" title="Видалити групу">✕</button>'}</div>`;
+      ${g.isArchive ? `<button class="col-btn" title="${T('arch.collapse')}">‹</button>` : g.isUnsorted ? `<button class="col-btn ok-all" title="${T('unsorted.okAllTitle')}">${T('unsorted.okAll')}</button>` : g.isRoot ? '' : `<button class="col-btn col-del" title="${T('group.delete')}">✕</button>`}</div>`;
     for (const l of links){ const a = linkEl(l, terms, g.isArchive); col.appendChild(a); visible.push(a); }
-    if (!links.length) col.insertAdjacentHTML('beforeend', `<div class="col-empty">${g.isArchive ? 'Перетягніть сюди те, що не потрібно щодня' : 'Перетягніть сюди посилання'}</div>`);
+    if (!links.length) col.insertAdjacentHTML('beforeend', `<div class="col-empty">${g.isArchive ? T('empty.archive') : T('empty.col')}</div>`);
     if (g.isArchive) col.querySelector('.col-btn').onclick = () => setArchive(false);
     if (g.isUnsorted){
       col.querySelector('.ok-all').onclick = () => markSeen(...g.links.map(l => l.id)).then(load);
@@ -160,13 +156,13 @@ function render(){
   if (!archive && !terms.length){
     const col = document.createElement('section');
     col.className = 'col archive collapsed';
-    col.innerHTML = `<button class="arch-pill" title="Перетягніть сюди посилання, щоб створити архів"><span>🗄</span><span class="v">${ARCHIVE}</span><span class="col-count">0</span></button>`;
+    col.innerHTML = `<button class="arch-pill" title="${T('arch.create')}"><span>🗄</span><span class="v">${ARCHIVE}</span><span class="col-count">0</span></button>`;
     wireDrop(col, null); board.appendChild(col);
   }
   $('#count').textContent = terms.length ? `${total}` : '';
   sel = 0; markSel();
   $('#empty').hidden = !(terms.length && !total);
-  $('#empty').textContent = 'Нічого не знайдено';
+  $('#empty').textContent = T('nothing');
 }
 function renderFavs(searching){
   const bar = $('#favs');
@@ -175,15 +171,15 @@ function renderFavs(searching){
   bar.innerHTML = '';
   if (!helpHidden){
     const h = document.createElement('a');
-    h.className = 'fav help-tile'; h.href = 'help.html'; h.title = 'Як користуватись закладками';
-    h.innerHTML = `<span class="fav-ico"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zm0 0A2 2 0 006 22h13"/><path d="M9 8h6M9 12h4"/></svg></span><span class="fav-t">Інструкція</span>`;
+    h.className = 'fav help-tile'; h.href = 'help.html'; h.title = T('help.tileTitle');
+    h.innerHTML = `<span class="fav-ico"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zm0 0A2 2 0 006 22h13"/><path d="M9 8h6M9 12h4"/></svg></span><span class="fav-t">${T('help')}</span>`;
     h.draggable = true;
     h.addEventListener('contextmenu', e => { e.preventDefault(); openHelpMenu(e); });
     h.addEventListener('dragstart', e => { e.dataTransfer.setData('text/id', HELP.id); h.classList.add('dragging'); dragging = HELP; showDock(HELP); });
     h.addEventListener('dragend', () => { h.classList.remove('dragging'); dragging = null; $('#dock').classList.remove('show'); });
     bar.appendChild(h);
   }
-  if (!list.length) bar.insertAdjacentHTML('beforeend', '<div class="favs-hint">★ Перетягніть сюди закладку, щоб додати в улюблені</div>');
+  if (!list.length) bar.insertAdjacentHTML('beforeend', `<div class="favs-hint">${T('favs.hint')}</div>`);
   for (const l of list){
     const a = document.createElement('a');
     a.className = 'fav'; a.href = l.url; a.draggable = true; a.dataset.id = l.id; a.title = (l.title ? l.title + '\n' : '') + shortUrl(l.url);
@@ -195,7 +191,7 @@ function renderFavs(searching){
   }
 }
 function openHelpMenu(e){
-  menu.innerHTML = '<button data-a="open">📖 Відкрити інструкцію</button><button data-a="hide">🗄 Прибрати в архів</button>';
+  menu.innerHTML = `<button data-a="open">${T('menu.openHelp')}</button><button data-a="hide">${T('menu.helpArchive')}</button>`;
   menu.hidden = false;
   menu.style.left = e.clientX + 'px'; menu.style.top = e.clientY + 'px';
   menu.onclick = ev => {
@@ -251,7 +247,7 @@ document.querySelectorAll('#dock .zone').forEach(z => {
 let toastTimer;
 function toast(html, undo){
   const t = $('#toast');
-  t.innerHTML = html + (undo ? ' <button class="btn">Повернути</button>' : '');
+  t.innerHTML = html + (undo ? ` <button class="btn">${T('undo')}</button>` : '');
   t.hidden = false;
   if (undo) t.querySelector('button').onclick = async () => { t.hidden = true; await undo(); };
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 6000);
@@ -260,7 +256,7 @@ async function removeLink(l){
   const backup = {parentId: l.parentId, index: l.index, title: l.title, url: l.url};
   await chrome.bookmarks.remove(l.id);
   const wasFav = favs.indexOf(l.id);
-  toast(`Видалено «${esc(l.title || host(l.url))}»`, async () => {
+  toast(T('toast.deleted', {t: esc(l.title || host(l.url))}), async () => {
     const n = await chrome.bookmarks.create(backup); await markSeen(n.id);
     if (wasFav >= 0){ const f = [...favs]; f.splice(wasFav, 0, n.id); setFavs(f); }
   });
@@ -269,7 +265,7 @@ async function toArchive(l){
   const from = {parentId: l.parentId, index: l.index};
   await markSeen(l.id);
   await chrome.bookmarks.move(l.id, {parentId: await ensureArchive()});
-  toast(`«${esc(l.title || host(l.url))}» в архіві`, () => chrome.bookmarks.move(l.id, from));
+  toast(T('toast.archived', {t: esc(l.title || host(l.url))}), () => chrome.bookmarks.move(l.id, from));
 }
 const line = document.createElement('div'); line.className = 'drop-line';
 const isLink = e => e.dataTransfer.types.includes('text/id');
@@ -348,20 +344,20 @@ board.addEventListener('drop', async e => {
 const menu = document.createElement('div'); menu.className = 'menu'; menu.hidden = true; document.body.appendChild(menu);
 function openMenu(e, l, a, inArchive, isFavTile){
   if (l.isHelp){
-    menu.innerHTML = '<button data-a="open">📖 Відкрити інструкцію</button><button data-a="fav">★ В улюблені</button>';
+    menu.innerHTML = `<button data-a="open">${T('menu.openHelp')}</button><button data-a="fav">${T('menu.fav')}</button>`;
     menu.hidden = false; menu.style.left = e.clientX + 'px'; menu.style.top = e.clientY + 'px';
     menu.onclick = ev => { const act = ev.target.closest('button')?.dataset.a; if (!act) return; menu.hidden = true;
       if (act === 'open') location.href = 'help.html'; if (act === 'fav') setHelp(false); };
     return;
   }
   const isFav = favs.includes(l.id), isNew = !seen.has(l.id);
-  menu.innerHTML = `<button data-a="fav">${isFav ? '☆ Прибрати з улюблених' : '★ В улюблені'}</button>
-    ${isNew ? '<button data-a="seen">✓ Залишити тут (розібрано)</button>' : ''}
-    ${isFavTile ? '' : '<button data-a="rename">✎ Перейменувати</button>'}
-    <button data-a="tab">↗ Відкрити в новій вкладці</button>
+  menu.innerHTML = `<button data-a="fav">${isFav ? T('menu.unfav') : T('menu.fav')}</button>
+    ${isNew ? `<button data-a="seen">${T('menu.seen')}</button>` : ''}
+    ${isFavTile ? '' : `<button data-a="rename">${T('menu.rename')}</button>`}
+    <button data-a="tab">${T('menu.tab')}</button>
     <div class="sep"></div>
-    ${inArchive ? '' : '<button data-a="archive">🗄 В архів</button>'}
-    <button data-a="delete" class="danger">🗑 Видалити</button>`;
+    ${inArchive ? '' : `<button data-a="archive">${T('menu.archive')}</button>`}
+    <button data-a="delete" class="danger">${T('menu.delete')}</button>`;
   menu.hidden = false;
   const r = menu.getBoundingClientRect();
   menu.style.left = Math.min(e.clientX, innerWidth - r.width - 8) + 'px';
@@ -400,7 +396,7 @@ function renameLink(l, a){
 
 function wireGroup(col, g){
   const title = col.querySelector('.col-title');
-  title.title = 'Двічі клацніть, щоб перейменувати';
+  title.title = T('rename.hint');
   title.addEventListener('dblclick', () => {
     title.contentEditable = true; title.focus(); document.getSelection().selectAllChildren(title);
     col.querySelector('.col-head').draggable = false;
@@ -417,7 +413,7 @@ function wireGroup(col, g){
     if (e.key === 'Escape'){ title.textContent = g.title; title.contentEditable = false; }
   });
   col.querySelector('.col-del').onclick = () => confirmBox(
-    `Видалити групу «${esc(g.title)}»?<br><span class="muted">Посилання з неї перейдуть в «${ARCHIVE}».</span>`,
+    `${T('group.delConfirm', {t: esc(g.title)})}<br><span class="muted">${T('group.delNote', {a: esc(archive?.title || ARCHIVE)})}</span>`,
     async () => {
       const arc = await ensureArchive();
       const [node] = await chrome.bookmarks.getSubTree(g.id);
@@ -432,7 +428,7 @@ function confirmBox(html, ok){
   d.querySelector('.cancel').onclick = () => d.hidden = true;
 }
 $('#addGroup').onclick = async () => {
-  const f = await chrome.bookmarks.create({parentId: defaultParent, title: 'Нова група'});
+  const f = await chrome.bookmarks.create({parentId: defaultParent, title: T('group.new')});
   setTimeout(() => {
     const t = board.querySelector(`.col[data-id="${f.id}"] .col-title`);
     if (t){ t.scrollIntoView({inline:'center'}); t.dispatchEvent(new MouseEvent('dblclick')); }
@@ -483,53 +479,60 @@ document.addEventListener('load', e => {
   img.classList.toggle('dark-icon', t === 'dark');
 }, true);
 
-/* ---------- quotes ---------- */
-let quotes = [], quotesReady = false, qEditing = null;
-const SEED = [{id: 'q1', text: 'Люди залучені, коли знають те, що знає CEO', author: 'CEO Київстар'}];
+/* ---------- quotes: «Мої цитати» або «Здивуй мене» ---------- */
+let quotes = [], quotesReady = false, qEditing = null, qOn = true, qMode = 'surprise';
+const builtin = () => (window.BUILTIN_QUOTES || []).map(b => ({id: b.id, text: LANG === 'uk' ? b.uk : b.en, author: LANG === 'uk' ? b.a_uk : b.a_en}));
+const activeQuotes = () => qMode === 'surprise' ? builtin() : quotes;
 const dayNum = () => Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
-let qPick = null; // {day, id} — цитата дня не змінюється, навіть якщо додаєш нові
-function todayIdx(){
-  if (!quotes.length) return -1;
-  const day = dayNum();
-  let i = qPick ? quotes.findIndex(x => x.id === qPick.id) : -1;
-  if (qPick && qPick.day === day && i >= 0) return i;
-  i = i >= 0 ? (i + 1) % quotes.length : (qPick ? 0 : day % quotes.length);
-  qPick = {day, id: quotes[i].id}; chrome.storage.local.set({qPick});
+let qPicks = {}; // {mode: {day, id}} — цитата дня не змінюється протягом доби
+function todayIdx(list = activeQuotes()){
+  if (!list.length) return -1;
+  const day = dayNum(), p = qPicks[qMode];
+  let i = p ? list.findIndex(x => x.id === p.id) : -1;
+  if (p && p.day === day && i >= 0) return i;
+  i = i >= 0 ? (i + 1) % list.length : (qMode === 'surprise' ? Math.floor(Math.random() * list.length) : day % list.length);
+  qPicks[qMode] = {day, id: list[i].id}; chrome.storage.local.set({qPicks});
   return i;
 }
 async function loadQuotes(){
-  const s = await chrome.storage.local.get(['quotes', 'qPick']);
-  quotes = s.quotes ?? SEED; qPick = s.qPick || null;
-  // одноразовий імпорт бібліотеки з quotes.json (якщо файл є в папці розширення)
-  const imp = await chrome.storage.local.get('quotesImported');
-  if (!imp.quotesImported){
+  const s = await chrome.storage.local.get(['quotes', 'qPicks', 'qPick', 'qOn', 'qMode', 'quotesImported']);
+  quotes = s.quotes ?? [];
+  qPicks = s.qPicks || (s.qPick ? {mine: s.qPick} : {});
+  qOn = s.qOn ?? true;
+  // одноразовий імпорт особистої бібліотеки з quotes.json, якщо такий файл є в папці розширення
+  if (!s.quotesImported){
     try {
       const pack = await (await fetch('quotes.json')).json();
       const norm = t => t.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
       const have = new Set(quotes.map(x => norm(x.text)));
       for (const it of pack) if (!have.has(norm(it.text))) { quotes.push(it); have.add(norm(it.text)); }
     } catch {}
-    chrome.storage.local.set({quotesImported: true});
+    chrome.storage.local.set({quotesImported: true, quotes});
   }
-  chrome.storage.local.set({quotes});
+  qMode = s.qMode || (quotes.length > 1 ? 'mine' : 'surprise');
   quotesReady = true; renderQuote();
 }
 function saveQuotes(){ chrome.storage.local.set({quotes}); renderQuote(); renderQList(); }
 function renderQuote(){
   const box = $('#quote');
-  box.hidden = !!q.value.trim();
-  if (!quotes.length){
-    box.innerHTML = '<button class="q-empty">❝ Додати цитату дня</button>';
-  } else {
-    const it = quotes[todayIdx()];
-    box.innerHTML = `<blockquote>${esc(it.text)}</blockquote>${it.author ? `<div class="q-author">— ${esc(it.author)}</div>` : ''}
-      <span class="q-tools-top"><button class="q-btn q-next" title="Інша цитата">↻</button><button class="q-btn q-lib" title="Бібліотека цитат">❝ ${quotes.length}</button></span>`;
+  box.hidden = !!q.value.trim() || !qOn;
+  if (!qOn) return;
+  const list = activeQuotes();
+  if (!list.length){
+    box.innerHTML = `<button class="q-empty">${T('q.addFirst')}</button>`;
+    box.querySelector('button').onclick = openQuotes;
+    return;
   }
-  (box.querySelector('.q-lib') || box.querySelector('button')).onclick = openQuotes;
-  const nx = box.querySelector('.q-next');
-  if (nx) nx.onclick = () => {
-    const i = (todayIdx() + 1) % quotes.length;
-    qPick = {day: dayNum(), id: quotes[i].id}; chrome.storage.local.set({qPick});
+  const it = list[todayIdx(list)];
+  const libBtn = qMode === 'mine'
+    ? `<button class="q-btn q-lib" title="${T('q.lib')}">❝ ${list.length}</button>`
+    : `<button class="q-btn q-lib" title="${T('q.settings')}">✦ ${T('s.surprise')}</button>`;
+  box.innerHTML = `<blockquote>${esc(it.text)}</blockquote>${it.author ? `<div class="q-author"><span class="q-dash">—</span>${esc(it.author)}</div>` : ''}
+    <span class="q-tools-top"><button class="q-btn q-next" title="${T('q.next')}">↻</button>${libBtn}</span>`;
+  box.querySelector('.q-lib').onclick = qMode === 'mine' ? openQuotes : openSettings;
+  box.querySelector('.q-next').onclick = () => {
+    const i = (todayIdx(list) + 1) % list.length;
+    qPicks[qMode] = {day: dayNum(), id: list[i].id}; chrome.storage.local.set({qPicks});
     renderQuote();
     const bq = $('#quote blockquote'); bq?.animate([{opacity: 0, transform: 'translateY(4px)'}, {opacity: 1, transform: 'none'}], {duration: 220, easing: 'ease-out'});
   };
@@ -543,25 +546,26 @@ function parseQuote(s){
 }
 function openQuotes(){ $('#quotes').hidden = false; resetQForm(); renderQList(); setTimeout(() => $('#qtext').focus(), 30); }
 function closeQuotes(){ $('#quotes').hidden = true; }
-function resetQForm(){ qEditing = null; $('#qtext').value = ''; $('.q-submit').textContent = 'Додати'; $('.q-cancel').hidden = true; }
+function resetQForm(){ qEditing = null; $('#qtext').value = ''; $('.q-submit').textContent = T('q.add'); $('.q-cancel').hidden = true; }
 function renderQList(){
-  const list = $('#qlist'), ti = todayIdx();
+  const list = $('#qlist');
+  const ti = qMode === 'mine' ? todayIdx(quotes) : -1;
   $('#qcount').textContent = quotes.length ? `${quotes.length}` : '';
-  list.innerHTML = quotes.length ? '' : '<div class="muted q-none">Поки порожньо. Додай першу цитату вище.</div>';
+  list.innerHTML = quotes.length ? '' : `<div class="muted q-none">${T('q.empty')}</div>`;
   quotes.forEach((it, i) => {
     const row = document.createElement('div');
     row.className = 'q-item' + (qEditing === it.id ? ' editing' : '');
     row.innerHTML = `<div class="q-body"><div class="q-t">${esc(it.text)}</div>
-      <div class="q-a">${it.author ? '— ' + esc(it.author) : ''}${i === ti ? '<span class="q-today">сьогодні</span>' : ''}</div></div>
-      <div class="q-tools"><button class="tool" data-a="edit" title="Редагувати">✎</button><button class="tool del" data-a="del" title="Видалити">✕</button></div>`;
+      <div class="q-a">${it.author ? '— ' + esc(it.author) : ''}${i === ti ? `<span class="q-today">${T('q.today')}</span>` : ''}</div></div>
+      <div class="q-tools"><button class="tool" data-a="edit" title="${T('q.edit')}">✎</button><button class="tool del" data-a="del" title="${T('q.del')}">✕</button></div>`;
     row.onclick = e => {
       const act = e.target.closest('button')?.dataset.a;
       if (act === 'del'){
         const [removed] = quotes.splice(i, 1); if (qEditing === it.id) resetQForm(); saveQuotes();
-        toast('Цитату видалено', () => { quotes.splice(i, 0, removed); saveQuotes(); });
+        toast(T('q.deleted'), () => { quotes.splice(i, 0, removed); saveQuotes(); });
       } else if (act === 'edit' || !act){
         qEditing = it.id; $('#qtext').value = it.author ? `${it.text} — ${it.author}` : it.text;
-        $('.q-submit').textContent = 'Зберегти'; $('.q-cancel').hidden = false; $('#qtext').focus(); renderQList();
+        $('.q-submit').textContent = T('q.save'); $('.q-cancel').hidden = false; $('#qtext').focus(); renderQList();
       }
     };
     list.appendChild(row);
@@ -581,14 +585,46 @@ $('#qtext').addEventListener('keydown', e => {
 $('.q-cancel').onclick = () => { resetQForm(); renderQList(); };
 $('.q-close').onclick = closeQuotes;
 $('#quotes').addEventListener('mousedown', e => { if (e.target.id === 'quotes') closeQuotes(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#quotes').hidden){ e.stopPropagation(); closeQuotes(); } }, true);
 loadQuotes();
+
+/* ---------- налаштування ---------- */
+function syncSettings(){
+  const s = $('#settings');
+  $('#langSel').value = LANG_PREF;
+  s.querySelectorAll('.seg[data-set="theme"] button').forEach(b => b.classList.toggle('on', b.dataset.v === theme));
+  $('#qOn').checked = qOn;
+  $('#qModes').classList.toggle('off', !qOn);
+  s.querySelectorAll('input[name="qMode"]').forEach(r => r.checked = r.value === qMode);
+}
+function openSettings(){ syncSettings(); $('#settings').hidden = false; }
+function closeSettings(){ $('#settings').hidden = true; }
+$('#settingsBtn').onclick = openSettings;
+$('.s-close').onclick = closeSettings;
+$('#settings').addEventListener('mousedown', e => { if (e.target.id === 'settings') closeSettings(); });
+{ const sel = $('#langSel'); sel.innerHTML = `<option value="auto">${T('s.auto')}</option>` + LANGS.map(([c, n]) => `<option value="${c}">${n}</option>`).join('');
+  sel.addEventListener('change', () => { if (sel.value !== LANG_PREF) setLang(sel.value); }); }
+$('#settings .seg[data-set="theme"]').addEventListener('click', e => {
+  const v = e.target.closest('button')?.dataset.v; if (!v) return;
+  theme = v; try{localStorage.theme = theme;}catch{} chrome.storage.sync.set({theme}); applyTheme(theme); syncSettings();
+});
+$('#qOn').addEventListener('change', e => { qOn = e.target.checked; chrome.storage.local.set({qOn}); syncSettings(); renderQuote(); });
+$('#settings').querySelectorAll('input[name="qMode"]').forEach(r => r.addEventListener('change', () => {
+  qMode = r.value; chrome.storage.local.set({qMode}); renderQuote();
+}));
+$('.s-lib').onclick = e => { e.preventDefault(); closeSettings(); openQuotes(); };
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (!$('#quotes').hidden){ e.stopPropagation(); closeQuotes(); }
+  else if (!$('#settings').hidden){ e.stopPropagation(); closeSettings(); }
+}, true);
 
 /* ---------- перевірка оновлень (раз на добу, GitHub Releases) ---------- */
 const REPO = 'samomisha/bookmarks-newtab';
 const verNum = v => String(v).replace(/^v/, '').split('.').map(n => parseInt(n) || 0);
 const newer = (a, b) => { const x = verNum(a), y = verNum(b); for (let i = 0; i < 3; i++){ if ((x[i]||0) !== (y[i]||0)) return (x[i]||0) > (y[i]||0); } return false; };
 async function checkUpdate(){
+  // версія з Chrome Web Store оновлюється сама, тож туди мережевих запитів не робимо
+  if (chrome.runtime.getManifest().update_url) return;
   const cur = chrome.runtime.getManifest().version;
   const s = await chrome.storage.local.get(['upd', 'updDismissed']);
   let upd = s.upd;
@@ -607,10 +643,10 @@ async function checkUpdate(){
   if (!upd || !newer(upd.tag, cur) || s.updDismissed === upd.tag){ box.hidden = true; return; }
   const v = upd.tag.replace(/^v/, '');
   box.innerHTML = `<span class="u-ico">✨</span>
-    <span class="u-text"><b>Вийшла нова версія ${esc(v)}</b> <span class="muted">у тебе ${esc(cur)} · онови файли в папці й натисни ↻ у chrome://extensions</span></span>
-    <a class="btn" href="${esc(upd.url)}" target="_blank">Що нового</a>
-    <a class="btn primary" href="${esc(upd.zip)}" target="_blank">⬇ Завантажити</a>
-    <button class="btn icon u-close" title="Сховати до наступної версії">✕</button>`;
+    <span class="u-text"><b>${T('upd.title', {v: esc(v)})}</b> <span class="muted">${T('upd.note', {c: esc(cur)})}</span></span>
+    <a class="btn" href="${esc(upd.url)}" target="_blank">${T('upd.whatsNew')}</a>
+    <a class="btn primary" href="${esc(upd.zip)}" target="_blank">${T('upd.download')}</a>
+    <button class="btn icon u-close" title="${T('upd.hide')}">✕</button>`;
   box.hidden = false;
   box.querySelector('.u-close').onclick = () => { chrome.storage.local.set({updDismissed: upd.tag}); box.hidden = true; };
 }

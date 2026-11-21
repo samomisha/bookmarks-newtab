@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Нова вкладка</title>
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<title>New Tab</title>
 <link rel="stylesheet" href="newtab.css">
+<script src="i18n.js"></script>
+<script src="quotes-builtin.js"></script>
 </head>
 <body>
 <header class="top">
   <div class="search">
     <svg viewBox="0 0 20 20" width="16" height="16"><path d="M8.5 3a5.5 5.5 0 014.38 8.83l3.65 3.64-1.06 1.06-3.64-3.65A5.5 5.5 0 118.5 3zm0 1.5a4 4 0 100 8 4 4 0 000-8z" fill="currentColor"/></svg>
-    <input id="q" type="text" placeholder="Пошук закладок…  ( / )" autocomplete="off" autofocus>
+    <input id="q" type="text" data-i18n-ph="search.ph" autocomplete="off" autofocus>
     <span id="count" class="muted"></span>
   </div>
   <div class="actions">
     <span class="credit"><a id="tgLink" href="https://t.me/designer_samovarov" target="_blank">Mike</a> from <a href="https://league.design" target="_blank">League Design</a></span>
-    <button id="addGroup" class="btn">+ Нова група</button>
-    <a id="help" class="btn icon" href="help.html" title="Інструкція">?</a>
-    <button id="theme" class="btn icon" title="Тема"></button>
+    <button id="addGroup" class="btn" data-i18n="group.add"></button>
+    <button id="settingsBtn" class="btn icon gear" data-i18n-title="settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 00-.48-.41h-3.84a.47.47 0 00-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 00-.59.22L2.74 8.87a.47.47 0 00.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 00-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 110-7.2 3.6 3.6 0 010 7.2z"/></svg></button>
   </div>
 </header>
 <section id="update" class="update" hidden></section>
@@ -24,23 +26,42 @@
 <section id="favs" class="favs" hidden></section>
 <main id="board"></main>
 <div id="dock" class="dock">
-  <div class="zone fav-zone" data-act="fav"><span class="ico">★</span><span class="lbl">В улюблені</span></div>
-  <div class="zone" data-act="archive"><span class="ico">🗄</span>В архів</div>
-  <div class="zone danger" data-act="delete"><span class="ico">🗑</span>Видалити</div>
+  <div class="zone fav-zone" data-act="fav"><span class="ico">★</span><span class="lbl" data-i18n="dock.fav"></span></div>
+  <div class="zone" data-act="archive"><span class="ico">🗄</span><span data-i18n="dock.archive"></span></div>
+  <div class="zone danger" data-act="delete"><span class="ico">🗑</span><span data-i18n="dock.delete"></span></div>
 </div>
 <div id="toast" class="toast" hidden></div>
 <div id="quotes" class="overlay" hidden>
   <div class="dlg qlib">
-    <div class="q-head"><b>Бібліотека цитат</b><span id="qcount" class="muted"></span><button class="btn icon q-close" title="Закрити">✕</button></div>
+    <div class="q-head"><b data-i18n="q.libTitle"></b><span id="qcount" class="muted"></span><button class="btn icon q-close" data-i18n-title="close">✕</button></div>
     <form id="qform">
-      <textarea id="qtext" rows="2" placeholder="Люди залучені, коли знають те, що знає CEO — CEO Київстар"></textarea>
-      <div class="q-row"><span class="muted">Одним рядком: «Текст — Автор» · ⌘Enter — зберегти</span>
-        <span><button type="button" class="btn q-cancel" hidden>Скасувати</button><button type="submit" class="btn primary q-submit">Додати</button></span></div>
+      <textarea id="qtext" rows="2" data-i18n-ph="q.ph"></textarea>
+      <div class="q-row"><span class="muted" data-i18n="q.hint"></span>
+        <span><button type="button" class="btn q-cancel" hidden data-i18n="cancel"></button><button type="submit" class="btn primary q-submit" data-i18n="q.add"></button></span></div>
     </form>
     <div id="qlist"></div>
   </div>
 </div>
-<div id="dialog" class="overlay" hidden><div class="dlg"><div class="msg"></div><div class="row"><button class="btn cancel">Скасувати</button><button class="btn ok">Видалити</button></div></div></div>
+<div id="settings" class="overlay" hidden>
+  <div class="dlg sdlg">
+    <div class="q-head"><b data-i18n="s.title"></b><button class="btn icon s-close" data-i18n-title="close">✕</button></div>
+    <div class="s-row"><div class="s-label" data-i18n="s.lang"></div>
+      <select id="langSel" class="sel"></select></div>
+    <div class="s-row"><div class="s-label" data-i18n="s.theme"></div>
+      <div class="seg" data-set="theme"><button data-v="system"><svg class="hi" viewBox="10 14 108 98" width="14" height="13" aria-hidden="true"><clipPath id="hhL"><rect x="0" y="0" width="64" height="128"/></clipPath><path d="M67 33.5C71 27 77 22 86 22C100 22 110 33 110 48C110 66 96 84 64 104C32 84 18 66 18 48C18 33 28 22 42 22C51 22 57 27 61 33.5Q64 38.5 67 33.5Z" fill="currentColor" clip-path="url(#hhL)"/><path d="M67 33.5C71 27 77 22 86 22C100 22 110 33 110 48C110 66 96 84 64 104C32 84 18 66 18 48C18 33 28 22 42 22C51 22 57 27 61 33.5Q64 38.5 67 33.5Z" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round"/></svg><span data-i18n="s.system"></span></button><button data-v="light"><svg class="hi" viewBox="10 14 108 98" width="14" height="13" aria-hidden="true"><path d="M64 104C32 84 18 66 18 48c0-15 11-26 25-26 9 0 16 5 21 12 5-7 12-12 21-12 14 0 25 11 25 26 0 18-14 36-46 56z" fill="none" stroke="currentColor" stroke-width="11" stroke-linejoin="round"/></svg><span data-i18n="s.light"></span></button><button data-v="dark"><svg class="hi" viewBox="10 14 108 98" width="14" height="13" aria-hidden="true"><path d="M64 104C32 84 18 66 18 48c0-15 11-26 25-26 9 0 16 5 21 12 5-7 12-12 21-12 14 0 25 11 25 26 0 18-14 36-46 56z" fill="currentColor" stroke="currentColor" stroke-width="11" stroke-linejoin="round"/></svg><span data-i18n="s.dark"></span></button></div></div>
+    <div class="s-sep"></div>
+    <div class="s-row"><div><div class="s-label" data-i18n="s.quote"></div><div class="muted s-note" data-i18n="s.quoteOn"></div></div>
+      <label class="switch"><input type="checkbox" id="qOn"><span></span></label></div>
+    <div class="s-modes" id="qModes">
+      <label class="s-mode"><input type="radio" name="qMode" value="surprise"><span><b data-i18n="s.surprise"></b><span class="muted" data-i18n="s.surpriseNote"></span></span></label>
+      <label class="s-mode"><input type="radio" name="qMode" value="mine"><span><b data-i18n="s.mine"></b><span class="muted" data-i18n="s.mineNote"></span>
+        <button type="button" class="btn s-lib" data-i18n="s.openLib"></button></span></label>
+    </div>
+    <a class="s-help" href="help.html"><span>📖</span><span><b data-i18n="s.help"></b><span class="muted" data-i18n="s.helpNote"></span></span><span class="s-arrow">→</span></a>
+    <div class="s-foot muted"><span data-i18n="s.foot"></span> · <a class="s-site" href="https://landing-production-80543e03.up.railway.app" target="_blank" rel="noopener" data-i18n="s.site"></a></div>
+  </div>
+</div>
+<div id="dialog" class="overlay" hidden><div class="dlg"><div class="msg"></div><div class="row"><button class="btn cancel" data-i18n="cancel"></button><button class="btn ok" data-i18n="delete"></button></div></div></div>
 <div id="empty" class="empty" hidden></div>
 <script src="newtab.js"></script>
 </body>

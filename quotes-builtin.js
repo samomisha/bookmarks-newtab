@@ -1,0 +1,43 @@
+// Бібліотека «Здивуй мене»: любов до роботи, продуктивність, любов до життя.
+// Авторство перевірене; там, де цитату лише приписують, це позначено.
+window.BUILTIN_QUOTES = [
+  // — любов до роботи —
+  {id:'b01', en:'The only way to do great work is to love what you do.', uk:'Єдиний спосіб робити велику роботу — любити те, що робиш.', a_en:'Steve Jobs', a_uk:'Стів Джобс'},
+  {id:'b02', en:'Work is love made visible.', uk:'Праця — це любов, яку видно.', a_en:'Kahlil Gibran', a_uk:'Халіль Джебран'},
+  {id:'b03', en:'Pleasure in the job puts perfection in the work.', uk:'Задоволення від роботи робить її досконалою.', a_en:'Aristotle (attributed)', a_uk:'Арістотель (приписують)'},
+  {id:'b04', en:'Choose a job you love, and you will never have to work a day in your life.', uk:'Обери роботу до душі — і тобі не доведеться працювати жодного дня.', a_en:'Confucius (attributed)', a_uk:'Конфуцій (приписують)'},
+  {id:'b05', en:'I never did a day’s work in my life. It was all fun.', uk:'Я за все життя не працював жодного дня. Це все була розвага.', a_en:'Thomas Edison', a_uk:'Томас Едісон'},
+  {id:'b06', en:'Far and away the best prize that life offers is the chance to work hard at work worth doing.', uk:'Найкращий приз, який дає життя, — шанс наполегливо працювати над справою, що того варта.', a_en:'Theodore Roosevelt', a_uk:'Теодор Рузвельт'},
+  {id:'b07', en:'Inspiration exists, but it has to find you working.', uk:'Натхнення існує, але воно має застати тебе за роботою.', a_en:'Pablo Picasso', a_uk:'Пабло Пікассо'},
+  {id:'b08', en:'To know how to do something well is to enjoy it.', uk:'Уміти щось робити добре — означає отримувати від цього радість.', a_en:'Pearl S. Buck', a_uk:'Перл Бак'},
+  {id:'b09', en:'Nothing will work unless you do.', uk:'Ніщо не спрацює, поки не працюєш ти.', a_en:'Maya Angelou', a_uk:'Майя Анджелоу'},
+  {id:'b10', en:'Whatever you are, be a good one.', uk:'Ким би ти не був — будь добрим у цьому.', a_en:'Abraham Lincoln (attributed)', a_uk:'Авраам Лінкольн (приписують)'},
+  {id:'b11', en:'Hide not your talents. They for use were made.', uk:'Не ховай свої таланти — їх створено, щоб ними користуватися.', a_en:'Benjamin Franklin', a_uk:'Бенджамін Франклін'},
+  {id:'b12', en:'Design is not just what it looks like and feels like. Design is how it works.', uk:'Дизайн — це не лише те, як річ виглядає і відчувається. Дизайн — це те, як вона працює.', a_en:'Steve Jobs', a_uk:'Стів Джобс'},
+  {id:'b13', en:'Good design is as little design as possible.', uk:'Хороший дизайн — це якомога менше дизайну.', a_en:'Dieter Rams', a_uk:'Дітер Рамс'},
+  // — продуктивність —
+  {id:'b14', en:'We are what we repeatedly do. Excellence, then, is not an act, but a habit.', uk:'Ми — те, що робимо постійно. Отже, досконалість — не дія, а звичка.', a_en:'Will Durant', a_uk:'Вілл Дюрант'},
+  {id:'b15', en:'Start where you are. Use what you have. Do what you can.', uk:'Почни там, де ти є. Використовуй те, що маєш. Роби те, що можеш.', a_en:'Arthur Ashe', a_uk:'Артур Еш'},
+  {id:'b16', en:'You can do anything, but not everything.', uk:'Ти можеш зробити будь-що, але не все.', a_en:'David Allen', a_uk:'Девід Аллен'},
+  {id:'b17', en:'Focus is a matter of deciding what things you’re not going to do.', uk:'Фокус — це рішення про те, чого ти робити не будеш.', a_en:'John Carmack', a_uk:'Джон Кармак'},
+  {id:'b18', en:'Done is better than perfect.', uk:'Зроблене краще за ідеальне.', a_en:'Sheryl Sandberg', a_uk:'Шеріл Сендберг'},
+  {id:'b19', en:'Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.', uk:'Досконалість досягнуто не тоді, коли нічого додати, а тоді, коли нічого забрати.', a_en:'Antoine de Saint-Exupéry', a_uk:'Антуан де Сент-Екзюпері'},
+  {id:'b20', en:'Simplicity is the ultimate sophistication.', uk:'Простота — це найвища витонченість.', a_en:'Leonardo da Vinci (attributed)', a_uk:'Леонардо да Вінчі (приписують)'},
+  {id:'b21', en:'Make it work, make it right, make it fast.', uk:'Зроби, щоб працювало. Зроби правильно. Зроби швидко.', a_en:'Kent Beck', a_uk:'Кент Бек'},
+  {id:'b22', en:'The way to get started is to quit talking and begin doing.', uk:'Щоб почати, треба перестати говорити й почати робити.', a_en:'Walt Disney (attributed)', a_uk:'Волт Дісней (приписують)'},
+  {id:'b23', en:'It’s not that I’m so smart, it’s just that I stay with problems longer.', uk:'Справа не в тому, що я такий розумний. Просто я довше залишаюся з проблемою.', a_en:'Albert Einstein (attributed)', a_uk:'Альберт Ейнштейн (приписують)'},
+  {id:'b24', en:'Almost everything will work again if you unplug it for a few minutes, including you.', uk:'Майже все знову запрацює, якщо вимкнути його на кілька хвилин. І ти теж.', a_en:'Anne Lamott', a_uk:'Енн Ламотт'},
+  {id:'b25', en:'How we spend our days is, of course, how we spend our lives.', uk:'Як ми проводимо свої дні — так ми і проживаємо своє життя.', a_en:'Annie Dillard', a_uk:'Енні Ділард'},
+  // — любов до життя —
+  {id:'b26', en:'The purpose of life is to live it, to taste experience to the utmost.', uk:'Сенс життя — прожити його, скуштувати досвід сповна.', a_en:'Eleanor Roosevelt', a_uk:'Елеонора Рузвельт'},
+  {id:'b27', en:'Life is what happens when you’re busy making other plans.', uk:'Життя — це те, що відбувається, поки ти будуєш інші плани.', a_en:'John Lennon', a_uk:'Джон Леннон'},
+  {id:'b28', en:'Enjoy the little things, for one day you may look back and realize they were the big things.', uk:'Радій дрібницям: одного дня озирнешся і зрозумієш, що вони й були головним.', a_en:'Robert Brault', a_uk:'Роберт Бро'},
+  {id:'b29', en:'Do not take life too seriously. You will never get out of it alive.', uk:'Не сприймай життя надто серйозно. Живим із нього все одно не вийти.', a_en:'Elbert Hubbard', a_uk:'Елберт Габбард'},
+  {id:'b30', en:'The best way to pay for a lovely moment is to enjoy it.', uk:'Найкраща плата за чудову мить — насолодитися нею.', a_en:'Richard Bach', a_uk:'Річард Бах'},
+  {id:'b31', en:'Happiness is not something ready made. It comes from your own actions.', uk:'Щастя не буває готовим. Воно народжується з твоїх власних дій.', a_en:'Dalai Lama', a_uk:'Далай-лама'},
+  {id:'b32', en:'Live as if you were to die tomorrow. Learn as if you were to live forever.', uk:'Живи так, ніби завтра помреш. Вчися так, ніби житимеш вічно.', a_en:'Mahatma Gandhi (attributed)', a_uk:'Магатма Ганді (приписують)'},
+  {id:'b33', en:'The world tried to catch me, but it did not succeed.', uk:'Світ ловив мене, та не спіймав.', a_en:'Hryhorii Skovoroda', a_uk:'Григорій Сковорода'},
+  {id:'b34', en:'Only to struggle is to live.', uk:'Лиш боротись — значить жить.', a_en:'Ivan Franko', a_uk:'Іван Франко'},
+  {id:'b35', en:'Wherever you go, go with all your heart.', uk:'Куди б ти не йшов — іди всім серцем.', a_en:'Confucius (attributed)', a_uk:'Конфуцій (приписують)'},
+  {id:'b36', en:'Rest is not idleness.', uk:'Відпочинок — це не лінощі.', a_en:'John Lubbock', a_uk:'Джон Леббок'},
+];

@@ -1,15 +1,22 @@
 {
-  "manifest_version": 3,
-  "name": "Працюй з любов'ю ♥",
-  "version": "1.6.1",
-  "description": "Нова вкладка з усіма закладками Chrome: групи-стовпчики, пошук, улюблені, архів, цитата дня. Світла й темна тема в стилі Notion.",
-  "homepage_url": "https://league.design",
-  "permissions": [
-    "bookmarks",
-    "storage",
-    "favicon"
-  ],
-  "chrome_url_overrides": {
-    "newtab": "newtab.html"
-  }
+ "manifest_version": 3,
+ "name": "__MSG_appName__",
+ "version": "1.8.0",
+ "description": "__MSG_appDesc__",
+ "homepage_url": "https://landing-production-80543e03.up.railway.app",
+ "permissions": [
+  "bookmarks",
+  "storage",
+  "favicon"
+ ],
+ "chrome_url_overrides": {
+  "newtab": "newtab.html"
+ },
+ "default_locale": "en",
+ "icons": {
+  "16": "icons/icon16.png",
+  "32": "icons/icon32.png",
+  "48": "icons/icon48.png",
+  "128": "icons/icon128.png"
+ }
 }

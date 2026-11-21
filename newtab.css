@@ -161,7 +161,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 /* library dialog */
 .qlib{width:min(620px,92vw);padding:16px 18px 10px}
 .q-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.q-head b{font-size:15px}.q-head .q-close{margin-left:auto}
+.q-head b{font-size:15px}.q-head .q-close,.q-head .s-close{margin-left:auto}
 #qtext{width:100%;resize:vertical;min-height:56px;font:inherit;font-size:14px;color:var(--text);background:var(--bg2);
   border:1px solid var(--border);border-radius:6px;padding:8px 10px;outline:0}
 #qtext:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--active)}
@@ -200,3 +200,55 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .credit{margin-right:20px}
 #addGroup{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:5px 12px;font-weight:500}
 #addGroup:hover{background:var(--hover);border-color:var(--muted)}
+/* ---------- settings ---------- */
+.sdlg{width:min(520px,92vw);padding:16px 18px 14px}
+.s-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0}
+.s-label{font-weight:500;font-size:14px}
+.s-note{font-size:12px;margin-top:2px}
+.s-sep{height:1px;background:var(--border);margin:6px 0}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:2px;gap:2px}
+.seg button{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;padding:4px 10px;border-radius:5px;cursor:pointer;white-space:nowrap}
+.seg button:hover{color:var(--text)}
+.seg button.on{background:var(--bg);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.switch{position:relative;width:36px;height:20px;flex:0 0 36px;cursor:pointer}
+.switch input{opacity:0;width:0;height:0}
+.switch span{position:absolute;inset:0;background:var(--border);border-radius:20px;transition:background .15s}
+.switch span::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+.switch input:checked + span{background:var(--accent)}
+.switch input:checked + span::after{transform:translateX(16px)}
+.s-modes{display:flex;flex-direction:column;gap:8px;padding:2px 0 8px;transition:opacity .15s}
+.s-modes.off{opacity:.4;pointer-events:none}
+.s-mode{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer}
+.s-mode:hover{background:var(--hover)}
+.s-mode:has(input:checked){border-color:var(--accent);background:var(--active)}
+.s-mode input{margin-top:3px;accent-color:var(--accent)}
+.s-mode > span{display:flex;flex-direction:column;gap:2px;font-size:14px}
+.s-mode .muted{font-size:12px}
+.s-lib{align-self:flex-start;margin:6px 0 0 -10px;font-size:12px;color:var(--accent)}
+.s-site{color:inherit}.s-site:hover{color:var(--text)}
+.s-foot{text-align:center;font-size:12px;padding-top:10px;border-top:1px solid var(--border);margin-top:4px}
+
+.btn.gear{width:34px;height:32px;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.s-help{display:flex;align-items:center;gap:12px;padding:10px 12px;margin:4px 0 10px;border:1px solid var(--border);border-radius:8px;color:var(--text);text-decoration:none}
+.s-help:hover{background:var(--hover)}
+.s-help > span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:2px;font-size:14px}
+.s-help .muted{font-size:12px}
+.s-arrow{color:var(--muted)}
+
+/* ---------- оптична вісь: лівий край іконки пошуку = 51px ----------
+   .top 40 + рамка 1 + падінг 10 → іконка лупи на x=51.
+   На цю лінію стають: перша літера цитати, ім'я автора, іконка «Інструкції»
+   в улюблених і фавіконки у стовпчиках; лапки й тире звисають ліворуч. */
+.quote{padding-left:51px}
+.quote blockquote::before{content:'“';display:inline-block;width:.6em;margin-left:-.6em;margin-right:0;text-align:right}
+.q-dash{display:inline-block;width:1.35em;padding-right:.35em;margin-left:-1.35em;text-align:right}
+.favs{padding-left:29px}                 /* 29 + (96-52)/2 = 51 */
+.favs.target{margin-left:21px;padding-left:8px}
+#board{padding-left:39px}                /* 39 + col 4 + link 8 = 51 */
+
+.sel{appearance:none;-webkit-appearance:none;font:inherit;font-size:13px;color:var(--text);background:var(--bg2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--border);border-radius:6px;padding:5px 30px 5px 10px;cursor:pointer;min-width:150px}
+.sel:focus{outline:2px solid var(--accent);outline-offset:1px}
+.sdlg .seg[data-set="theme"],.sdlg .sel{width:320px;box-sizing:border-box;height:34px}
+.sdlg .seg[data-set="theme"] button{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:6px}
+.hi{display:block;flex:none}
+
