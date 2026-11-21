@@ -1,4 +1,6 @@
-# Працюй з любов'ю ♥ — закладки в новій вкладці Chrome
+# Work-Love-Balance ♥ — закладки в новій вкладці Chrome
+
+**[⬇ Встановити з Chrome Web Store](https://chromewebstore.google.com/detail/jpgnhdhgiogedcdalebnijpemhehkped)** · [Сайт](https://landing-production-80543e03.up.railway.app)
 
 Розширення, яке замінює нову вкладку Chrome на зручну дошку з усіма вашими закладками — у стилі Notion, зі світлою й темною темою.
 
